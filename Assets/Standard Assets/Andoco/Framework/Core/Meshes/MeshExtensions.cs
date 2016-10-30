@@ -43,7 +43,6 @@ namespace Andoco.Unity.Framework.Core.Meshes
         public static IGraph BuildGraph(this Mesh mesh)
         {
             var verts = mesh.vertices;
-            var tris = mesh.triangles;
             var edges = mesh.GetEdges();
 
             var graph = new Graph();

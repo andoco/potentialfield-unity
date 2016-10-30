@@ -22,8 +22,6 @@ namespace Andoco.Unity.Framework.Misc
         [Inject]
         private FlagSignal flagSignal;
 
-        private Transform cachedTransform;
-
         private Coroutine spawnRoutine;
 
         public GameObject[] prefabs;
@@ -67,11 +65,6 @@ namespace Andoco.Unity.Framework.Misc
         public Vector3 SpawnPosition { get; set; }
 
         public GameObject LastSpawned { get; private set; }
-
-        void Awake()
-        {
-            this.cachedTransform = this.transform;
-        }
 
         [Inject]
         void OnPostInject()

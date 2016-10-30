@@ -34,7 +34,6 @@ public class MeshDebug : MonoBehaviour
         var verts = mesh.vertices;
         var norms = mesh.normals;
         var cols = mesh.colors;
-        var triangles = mesh.triangles;
 
         if (this.vertexGizmos)
         {

@@ -36,7 +36,8 @@ namespace Andoco.Unity.Framework.Units
                 if (healthPerc < conf.threshold)
                 {
                     var ps = this.GetOrCreateParticleSystem();
-                    ps.emissionRate = conf.emissionRate;
+                    var emission = ps.emission;
+                    emission.rate = conf.emissionRate;
                 }
             }
         }

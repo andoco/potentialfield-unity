@@ -346,8 +346,6 @@ namespace Andoco.Unity.Framework.Core.Meshes
         /// <param name="radius">Radius.</param>
         public static void AddCircle(this IMeshBuilder meshBuilder, int numSegments, float radius)
         {
-            var startIndex = meshBuilder.Vertices.Count;
-
             // Rotate anticlockwise so edges go from left to right.
             var angleDelta = -Mathf.PI * 2f / numSegments;
 

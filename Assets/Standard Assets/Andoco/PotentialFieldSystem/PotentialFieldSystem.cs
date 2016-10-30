@@ -95,7 +95,6 @@ namespace Andoco.Unity.Framework.PotentialField
 
                     for (int i = 0; i < this.nodes.Count; i++)
                     {
-                        var n = this.nodes[i];
                         var potential = potentials[i];
                         var normPotential = Mathf.Clamp(this.debugPotentialScale * potential, -1f, 1f);
 
