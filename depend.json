@@ -1,0 +1,13 @@
+{
+  "projects": 
+  [ 
+    {
+      "path": "/Users/andrew/Documents/Code/Unity/Framework",
+      "assets":
+      [
+        "Standard Assets/Andoco/Framework",
+	"Standard Assets/Zenject"
+      ]
+    }
+  ]
+}
