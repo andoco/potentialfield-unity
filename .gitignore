@@ -1,0 +1,10 @@
+obj
+Library
+Temp
+*.csproj
+*.pidb
+*.unityproj
+*.sln
+*.userprefs
+*.blend[0-9]*
+
