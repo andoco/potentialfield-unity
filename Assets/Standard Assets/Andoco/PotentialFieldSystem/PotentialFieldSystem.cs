@@ -147,12 +147,12 @@ namespace Andoco.Unity.Framework.PotentialField
 
             Debug.LogFormat("Created {0} potential field nodes", this.nodes.Count);
 
-			foreach (var layerConf in this.data.layers)
-			{
-				var layerKind = layerConf.flowField ? PotentialLayerKind.Flow : PotentialLayerKind.Field;
+            foreach (var layerConf in this.data.layers)
+            {
+                var layerKind = layerConf.flowField ? PotentialLayerKind.Flow : PotentialLayerKind.Field;
                 var layer = new Layer(layerConf.value, layerKind);
                 this.layers.Add(layer);
-			}
+            }
 
 			var flowLayers = this.layers.Where(x => x.Kind == PotentialLayerKind.Flow).ToArray();
 

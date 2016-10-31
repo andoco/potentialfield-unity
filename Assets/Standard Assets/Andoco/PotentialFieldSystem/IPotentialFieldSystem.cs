@@ -20,7 +20,7 @@ namespace Andoco.Unity.Framework.PotentialField
 
         void AddNodeSource(PotentialFieldNodeSource nodeSource);
 
-        PotentialFieldNodeSource AddNodeSource(object context, string sourceKey, int layer, float potential = 0f);
+        PotentialFieldNodeSource AddNodeSource(object context, string sourceKey, int layers, float potential = 0f);
 
         void RemoveNodeSource(PotentialFieldNodeSource nodeSource);
 
