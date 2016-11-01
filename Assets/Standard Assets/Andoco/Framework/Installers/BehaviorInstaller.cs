@@ -1,7 +1,6 @@
 namespace Andoco.Unity.Framework.Installers
 {
-    using System.Collections.Generic;
-    using System.Reflection;
+    using System;
     using Andoco.BehaviorTree;
     using Andoco.BehaviorTree.Reader;
     using Andoco.BehaviorTree.Reader.Source;
@@ -10,7 +9,6 @@ namespace Andoco.Unity.Framework.Installers
     using Andoco.Core;
     using Andoco.Core.Reflection;
     using Andoco.Unity.Framework.BehaviorTree;
-    using UnityEngine;
     using Zenject;
 
     public class BehaviorInstaller : Installer
@@ -29,7 +27,7 @@ namespace Andoco.Unity.Framework.Installers
 
             // Task types.
             Container.Bind(x => x.AllTypes().DerivingFrom<ITask>()).ToSelf().AsTransient();
-            
+
             Container.Bind<IBehaviorSourceResolver>().To<UnityBehaviorSourceResolver>().AsSingle();
             Container.Bind<IBehaviorTreeFactory>().To<CachingBehaviorTreeFactory>().AsSingle();
 
@@ -54,10 +52,7 @@ namespace Andoco.Unity.Framework.Installers
             var taskFactory = (DefaultTaskFactory)container.Resolve<ITaskFactory>();
             taskFactory.Resolver = t => container.Resolve(t);
 
-            var taskTypeAssemblies = new [] { 
-                Assembly.GetExecutingAssembly(), 
-                typeof(ITask).Assembly
-            };
+            var taskTypeAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             foreach (var assembly in taskTypeAssemblies)
             {
