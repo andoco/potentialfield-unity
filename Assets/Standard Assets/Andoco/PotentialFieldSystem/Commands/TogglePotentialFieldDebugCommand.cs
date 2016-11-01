@@ -1,7 +1,5 @@
-using System.Collections;
 using System.IO;
 using Andoco.Core.Diagnostics.Commands;
-using Andoco.Unity.Framework.Core;
 using UnityEngine;
 
 namespace Andoco.Unity.Framework.PotentialField
@@ -10,12 +8,12 @@ namespace Andoco.Unity.Framework.PotentialField
     {
         protected override ExecutionResultKind OnCommand(Args args, TextWriter output)
         {
-            var sys = GameObject.FindObjectOfType<PotentialFieldSystem>();
+            var debugModule = GameObject.FindObjectOfType<PotentialFieldDebugModule>();
 
-            if (sys == null)
+            if (debugModule == null)
                 return ExecutionResultKind.Failure;
-            
-            sys.ToggleDebug();
+
+            debugModule.ToggleDebug();
 
             return ExecutionResultKind.Success;
         }

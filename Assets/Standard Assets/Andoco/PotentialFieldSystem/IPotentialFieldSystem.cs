@@ -16,8 +16,6 @@ namespace Andoco.Unity.Framework.PotentialField
 
         IList<IFieldNodeRef> GetNeighbours(IFieldNodeRef node);
 
-        void ToggleDebug();
-
         void AddNodeSource(PotentialFieldNodeSource nodeSource);
 
         PotentialFieldNodeSource AddNodeSource(object context, string sourceKey, int layers, float potential = 0f);

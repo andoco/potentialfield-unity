@@ -21,6 +21,7 @@ GameObject:
   - 4: {fileID: 4000012599809008}
   - 114: {fileID: 114000012267245388}
   - 114: {fileID: 114000010975864172}
+  - 114: {fileID: 114000010177635070}
   m_Layer: 0
   m_Name: PotentialField
   m_TagString: Untagged
@@ -41,6 +42,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &114000010177635070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011069852038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa8ee1b20c6d4161bd2a9db2666f60e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gizmoRadius: 1
+  neutral: {r: 0, g: 0, b: 0, a: 0.039215688}
+  positive1: {r: 1, g: 0, b: 0, a: 1}
+  positive2: {r: 1, g: 1, b: 0, a: 1}
+  negative1: {r: 0, g: 0, b: 1, a: 1}
+  negative2: {r: 0, g: 0.95686275, b: 1, a: 1}
+  debugEnabled: 1
+  debugLayerMask:
+    datasetKey: Default
+    value: 1
+  debugPotentialScale: 1
+  debugPotentialAutoScale: 1
+  debugParticleMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  debugParticleSize: 0.9
+  debugParticleRenderMode: 0
+  debugPositionMode: 0
+  debugPositionOffset: {x: 0, y: 0, z: 0}
+  debugPositionScale: 1
 --- !u!114 &114000010975864172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70,24 +100,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 2e5b96985398142da835fd8a0d35952c, type: 2}
   sampleMode: 1
-  gizmoRadius: 1
-  neutral: {r: 0, g: 0, b: 0, a: 0.039215688}
-  positive1: {r: 1, g: 0, b: 0, a: 1}
-  positive2: {r: 1, g: 1, b: 0, a: 1}
-  negative1: {r: 0, g: 0, b: 1, a: 1}
-  negative2: {r: 0, g: 0.95686275, b: 1, a: 1}
-  debugEnabled: 1
-  debugLayerMask:
-    datasetKey: Default
-    value: -1
-  debugPotentialScale: 1
-  debugPotentialAutoScale: 1
-  debugParticleMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  debugParticleSize: 0.5
-  debugParticleRenderMode: 0
-  debugPositionMode: 0
-  debugPositionOffset: {x: 0, y: 0, z: 0}
-  debugPositionScale: 1
   flowConfig:
     decay: 0.1
     momentum: 0.8
