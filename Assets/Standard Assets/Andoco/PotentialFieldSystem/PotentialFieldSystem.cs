@@ -14,7 +14,8 @@ namespace Andoco.Unity.Framework.PotentialField
         private readonly List<Layer> layers = new List<Layer>();
 		private float time;
 		private PotentialCache potentialCache;
-		private PotentialFlowHandler flowHandler;
+        private PotentialCalculationModule calculationModule;
+        private PotentialFlowModule flowModule;
 
 		public PotentialFieldData data;
         public SampleMode sampleMode;
@@ -62,11 +63,13 @@ namespace Andoco.Unity.Framework.PotentialField
                 this.layers.Add(layer);
             }
 
+            this.calculationModule = new PotentialCalculationModule();
+
 			var flowLayers = this.layers.Where(x => x.Kind == PotentialLayerKind.Flow).ToArray();
 
-			this.flowHandler = new PotentialFlowHandler(graph, flowLayers);
-			this.flowHandler.Decay = this.flowConfig.decay;
-			this.flowHandler.Momentum = this.flowConfig.momentum;
+			this.flowModule = new PotentialFlowModule(graph, flowLayers);
+			this.flowModule.Decay = this.flowConfig.decay;
+			this.flowModule.Momentum = this.flowConfig.momentum;
 
             this.IsReady = true;
 
@@ -169,32 +172,21 @@ namespace Andoco.Unity.Framework.PotentialField
 
                         if (layer.IsOneOfLayers(request.potentialLayerMask))
 						{
-							if (layer.Kind == PotentialLayerKind.Flow)
-							{
-								potential = this.CombinePotential(potential, this.flowHandler.Sample(layer.LayerNum, node.Node));
-								continue;
-							}
+                            var layerPotential = 0f;
 
-							for (int k = 0; k < layer.Sources.Count; k++)
-							{
-								var source = layer.Sources[k];
+                            switch (layer.Kind)
+                            {
+                                case PotentialLayerKind.Field:
+                                    layerPotential = this.calculationModule.SamplePotential(node, layer.Sources, request.filter, this.CombinePotential);
+                                    break;
+                                case PotentialLayerKind.Flow:
+                                    layerPotential = this.flowModule.Sample(layer.LayerNum, node.Node);
+                                    break;
+                                default:
+                                    throw new System.InvalidOperationException(string.Format("Unknown potential layer kind {0}", layer.Kind));
+                            }
 
-								if (source.Enabled && (request.filter == null || request.filter(source)))
-								{
-									var sourcePotential = 0f;
-
-									if (node == source.Node)
-									{
-										sourcePotential = source.Potential;
-									}
-									else if (source.Calculator != null)
-									{
-										sourcePotential = source.Calculator.GetPotential(node.Position, source.Node.Position, source.Potential);
-									}
-
-									potential = this.CombinePotential(potential, sourcePotential);
-								}
-							}
+                            potential = this.CombinePotential(potential, layerPotential);
 						}
 					}
 
@@ -209,24 +201,6 @@ namespace Andoco.Unity.Framework.PotentialField
 
             return potentials;
         }
-
-		private float CombinePotential(float potential, float sourcePotential)
-		{
-			switch (this.sampleMode)
-			{
-				case SampleMode.Additive:
-					potential += sourcePotential;
-					break;
-				case SampleMode.Magnitude:
-					if (Mathf.Abs(sourcePotential) > Mathf.Abs(potential))
-					{
-						potential = sourcePotential;
-					}
-					break;
-			}
-
-			return potential;
-		}
 
 		public IList<NodeSample> SamplePotential(IPotentialSampleStrategy strategy, IFieldNodeRef startNode, int layerMask, PotentialFilter filter)
 		{
@@ -282,11 +256,29 @@ namespace Andoco.Unity.Framework.PotentialField
             return closest;
         }
 
+        private float CombinePotential(float potential, float sourcePotential)
+        {
+            switch (this.sampleMode)
+            {
+                case SampleMode.Additive:
+                    potential += sourcePotential;
+                    break;
+                case SampleMode.Magnitude:
+                    if (Mathf.Abs(sourcePotential) > Mathf.Abs(potential))
+                    {
+                        potential = sourcePotential;
+                    }
+                    break;
+            }
+
+            return potential;
+        }
+
 		private IEnumerator UpdatePotentialFlow()
 		{
 			while (true)
 			{
-				this.flowHandler.Propagate();
+				this.flowModule.Propagate();
 
 				yield return new WaitForSeconds(1f / this.flowConfig.updateFrequency);
 			}
@@ -295,29 +287,6 @@ namespace Andoco.Unity.Framework.PotentialField
         #endregion
 
         #region Types
-
-        public class Layer
-        {
-            public Layer(int layerNum, PotentialLayerKind layerKind)
-            {
-                this.LayerNum = layerNum;
-				this.Kind = layerKind;
-                this.Sources = new List<PotentialFieldNodeSource>();
-            }
-
-            public int LayerNum { get; private set; }
-
-            public int LayerMask { get { return 1 << this.LayerNum; } }
-
-			public PotentialLayerKind Kind { get; private set; }
-
-            public List<PotentialFieldNodeSource> Sources { get; private set; }
-
-            public bool IsOneOfLayers(int layerMask)
-            {
-                return (this.LayerMask & layerMask) == this.LayerMask;
-            }
-        }
 
         public enum SampleMode
         {

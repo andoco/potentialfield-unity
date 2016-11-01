@@ -4,17 +4,17 @@ using UnityEngine.Assertions;
 
 namespace Andoco.Unity.Framework.PotentialField
 {
-	public class PotentialFlowHandler
+	public class PotentialFlowModule
 	{
 		private readonly SimpleGraph graph;
-		private readonly PotentialFieldSystem.Layer[] layers;
+		private readonly Layer[] layers;
 		private readonly PotentialData[][] layerData;
 
 		public float Decay { get; set; }
 
 		public float Momentum { get; set; }
 
-		public PotentialFlowHandler(SimpleGraph graph, PotentialFieldSystem.Layer[] layers)
+		public PotentialFlowModule(SimpleGraph graph, Layer[] layers)
 		{
 			this.layers = layers;
 			this.graph = graph;
